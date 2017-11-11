@@ -1,0 +1,395 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+ul {
+	list-style: initial;
+}
+li {
+	display: inline-block;
+}
+
+
+.visible {
+	display: block !important;
+	opacity: 1 !important;
+	pointer-events: auto !important;
+}
+.hidden {
+	display: none;
+}
+html{
+	position: relative;
+	min-height: 100%;
+}
+html, body {
+	width: 100%;
+}
+body{
+	padding-bottom: 80px;
+}
+
+
+.height-custom{
+	height: 100%;
+}
+
+.images-wrapper{
+	align-self: center;
+	padding: 0;
+}
+.images-container{
+	display: flex;
+	flex-wrap: wrap;
+}
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000px;
+	transform-style: preserve-3d;
+	width: 33%;
+	height: 0;
+	padding-bottom: 33%;
+}
+/*  UPDATED! flip the pane when hovered */
+.flip-container:hover .back {
+	transform: rotateY(0deg);
+}
+.flip-container:hover .front {
+	transform: rotateY(180deg);
+}
+
+.front, .back {
+	width: 100%;
+	height: 100%;
+}
+
+/* flip speed goes here */
+.flipper {
+	height: 0;
+	padding-bottom: 100%;
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/*  UPDATED! front pane, placed above back */
+.front {
+	z-index: 2;
+	transform: rotateY(0deg);
+	background-color: red;
+}
+
+/* back, initially hidden pane */
+.back {
+	background-color: blue;
+	transform: rotateY(-180deg);
+}
+
+
+.front-page {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	padding-bottom: 0;
+	background: url(../img/front-bg.jpg) center center / cover no-repeat;
+}
+.alert-email-check {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+}
+.front-page .container-fluid {
+	padding: 0 50px;
+}
+
+.front-box {
+	position: relative;
+	padding: 20px;
+	border-radius: 15px;
+	border: 2px solid #495057;
+	background: #fff;
+	overflow: hidden;
+}
+
+.sign-in {
+	opacity: 1;
+	transition: all .5s;
+}
+.sign-in.disable {
+	position: absolute;
+	top:0;
+	left: 0;
+	pointer-events: none;
+	opacity: 0;
+	transform: translateX(-20%);
+}
+.sign-up {
+	position: absolute;
+	pointer-events: none;
+	opacity: 0;
+	transform: translateX(20%);
+	z-index: -1;
+	transition: all .5s .5s;
+}
+.sign-up.active {
+	position: static;
+	pointer-events: auto;
+	opacity: 1;
+	transform: translateX(0%);
+	z-index: 10;
+}
+
+.front-box .buttons-container {
+	display: flex;
+	justify-content: space-between;
+	cursor: pointer;
+}
+
+
+/* news styles */
+.content {
+	padding-top: 20px;
+	margin-bottom: 20px;
+}
+
+.image-container .button-container{
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	align-items: center;
+}
+.input-file {
+	width: .1px;
+	height: .1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.button-container figure {
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100px;
+	height: 100px;
+	background-color: #21b8c6;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.button-container figure:before, .button-container figure:after{
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%,-50%,0);
+	background-color: #fff;
+}
+.button-container figure:before{
+	width: 50px;
+	height: 8px;
+}
+.button-container figure:after{
+	width: 8px;
+	height: 50px;
+}
+.main-menu {
+	box-shadow: 0 -2px 18px 0 gray;
+}
+.main-menu li {
+	display: flex;
+	align-items: center;
+}
+.main-menu li:not(:last-of-type) {
+	margin-right: 30px;
+}
+.navbar-nav {
+	width: 100%;
+	justify-content: flex-end;
+}
+.user-block {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.user-block img{
+	width: 100px;
+}
+.user-block .caption{
+	color: #fff;
+}
+
+.content-container {
+	padding: 15px 25px;
+	box-shadow: 1px 1px 20px 0 rgba(0,0,0,0.75);
+}
+.news-container .image-container {
+	position: relative;
+	min-height: 200px;
+	padding: 6px;
+	text-align: center;
+	overflow: hidden;
+}
+.news-container .add-image-block{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.news-container .image-container img{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	object-fit: cover;
+}
+.news-container .image-container .image {
+	position: relative;
+}
+.news-container .image-container .image:after {
+	content: '';
+	display: block;
+	padding-bottom: 100%;
+}
+
+.custom-popover {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	width: 100%;
+	padding-top: 20px
+}
+.buttons-group {
+	margin-bottom: 20px;
+}
+.custom-popover button {
+	cursor: pointer;
+}
+.pagination-container{
+	margin-top: 20px;
+}
+
+.page-link{
+	z-index: 1 !important;
+}
+#zoom-container{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0%;
+	left: 0;
+	opacity: 0;
+	pointer-events: none;
+	z-index: -1;
+	visibility: hidden;
+	transition: all .5s;
+}
+#zoom-container:after{
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0%;
+	left: 0%;
+	background: rgba(0,0,0,.5);
+}
+#zoom-container.open{
+	opacity: 1;
+	pointer-events: auto;
+	z-index: 1;
+	visibility: visible;
+}
+.zoom-popup{
+	display: table;
+	position: relative;
+	max-height: 80%;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%,-50%,0);
+	height: auto;
+	z-index: 999;
+	text-align: center;
+	
+}
+.zoom-popup img{
+	max-width: 100%;
+}
+.zoom-popup .close-button{
+	position: absolute;
+	right: 0px;
+	top: -40px;
+	color: #fff;
+	cursor: pointer;
+}
+
+
+/*edit profile styles */
+.edit-profile .tab-content {
+	margin-top: 40px;
+}
+.avatar-edit-form button{
+	margin-top: 20px;
+}
+
+
+/* email confirmed page */
+.email-confirm h1, .email-confirm p {
+	text-align: center;
+}
+.email-confirm p {
+	margin-top: 25px;
+}
+
+/*Gallery list styles*/
+.card-custom{
+	margin-top: 20px;
+	flex-direction: row;
+	border: none;
+}
+.card-custom img{
+	width: 100px;
+	height: 100px;
+	margin-right: 20px;
+}
+.card-custom .card-block{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+/*Create gallery page*/
+#galleryName, #create-gallery-btn {
+	margin-top: 20px;
+}
+
+
+
+/* footer styles */
+footer{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 20px;
+	color: #fff;
+}
+footer p{
+	margin-bottom: 0;
+}
+footer .align-center{
+	align-items: center;
+}
