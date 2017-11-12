@@ -49,6 +49,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+$route['verify-email/code/(:any)'] = 'front_page/email_verify/$1';
+$route['activate-email'] = 'front_page/email_activate';
 $route['register'] = 'front_page/register';
 $route['auth'] = 'front_page/auth';
 $route['404_override'] = 'errors/page_missing';

@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function removeMistake(element) {
-        debugger;
         element.nextElementSibling.innerHTML = '';
         errorsCount--;
     }
