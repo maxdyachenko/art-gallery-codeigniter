@@ -1,6 +1,4 @@
 <body class="front-page">
-<div class="alert alert-danger alert-email-check hidden" role="alert">
-</div>
 <div class="container-fluid">
     <div class="row justify-content-between">
         <div class="col-md-3 front-box">
@@ -9,12 +7,13 @@
                     <label for="InputEmail1">Email address</label>
                     <input type="email" class="form-control" id="authEmail" aria-describedby="emailHelp"
                            placeholder="Enter email" name="authEmail">
-                    <div class="invalid-feedback">Invalid email</div>
+                    <div class="invalid-feedback visible"><?php echo form_error('authEmail'); ?></div>
                 </div>
                 <div class="form-group">
                     <label for="InputPassword1">Password</label>
                     <input type="password" class="form-control" id="InputPassword1" placeholder="Password"
                            name="authPswd">
+                    <div class="invalid-feedback visible"><?php echo form_error('authPswd'); ?></div>
                 </div>
                 <div class="form-check">
                     <label class="form-check-label">
@@ -23,7 +22,7 @@
                     </label>
                 </div>
                 <div class="buttons-container">
-                    <button type="button" class="btn btn-primary" name="auth" id="signin-button">Sign in</button>
+                    <button type="submit" class="btn btn-primary" name="auth" id="signin-button">Sign in</button>
                     <button type="button" class="btn btn-primary" id="signup-button">Register</button>
                 </div>
             </form>

@@ -22,33 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
         signupForm.classList.add('active');
     });
 
-    //signinButton.addEventListener('click', validateAuthForm);
+    signinForm.addEventListener('submit', validateAuthForm);
 
     function validateAuthForm() {
         if (!isCorrectEmail(authEmail)){
-            addMistake(authEmail);
-            return;
+            addMistake(authEmail, "Invalid email");
+            event.preventDefault();
         } else{
             removeMistake(authEmail);
         }
-        sendAuth();
-    }
-    function sendAuth() {
-        var data = $('.sign-in').serialize();
-
-        $.ajax({
-            type: "POST",
-            url: "/auth",
-            data: data,
-            success: function (data) {
-                if (data === "No errors") {
-                    window.location.href = '/main';
-                } else{
-                    $('.alert-danger').html(data).addClass('visible');
-                    $('.sign-in')[0].reset();
-                }
-            }
-        })
     }
 
     var errorsCount = 0;

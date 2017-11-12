@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Front_page extends CI_Controller {
-
+    private $logged = null;
     public function __construct()
     {
         parent::__construct();
@@ -22,7 +22,72 @@ class Front_page extends CI_Controller {
 	public function auth()
     {
         $this->load->library('form_validation');
+        $this->form_validation->set_rules('authEmail', 'Email', 'trim|required|valid_email|callback_is_verified');
+        $this->form_validation->set_rules('authPswd', 'Password', 'trim|required|min_length[6]|max_length[16]|callback_user_exist['.$this->input->post('authEmail').']');
+        $this->form_validation->set_rules('rememberMe', 'Remember Me', 'callback_remember_me');
+
+        if ($this->form_validation->run() == FALSE)
+        {
+            $data['auth_attr'] = "class='sign-in '";
+            $data['reg_attr'] = "class='sign-up '";
+            $this->load->view('templates/header');
+            $this->load->view('pages/front_page', $data);
+        }
+        else
+        {
+            
+        }
     }
+
+    public function remember_me($str)
+    {
+        if (!$this->logged) return;
+        if ($str === 'on')
+        {
+            $bytes = random_bytes(20);
+            $token = bin2hex($bytes);
+            if (!$this->front_model->has_remember_token($token, $this->input->post('authEmail')))
+            {
+                $this->front_model->set_remember_token($token,$this->input->post('authEmail'));
+            }
+
+            $this->load->helper('cookie');
+
+            $id = $this->session->userdata('id');
+            set_cookie('id', $id, time()+60*60*24*30, base_url() ,'/');
+            set_cookie('token', $token, time()+60*60*24*30, base_url(), '/');
+
+        }
+        return true;
+    }
+
+    public function is_verified($email)
+    {
+        if (!$this->front_model->is_verified($email))
+        {
+            $this->form_validation->set_message('is_verified', 'Email is not verified');
+            $this->logged = false;
+            return false;
+        }
+        return true;
+    }
+
+    public function user_exist($pswd, $email)
+    {
+        if (!$this->front_model->check_user_exist($email, $pswd))
+        {
+            $this->form_validation->set_message('user_exist', 'Incorrect email or password');
+            return false;
+        }
+        if (is_null($this->logged)) {
+            $this->logged = true;
+        }
+        $id = $this->front_model->get_user_id($email);
+        $this->session->set_userdata('id', $id);
+
+        return true;
+    }
+
 
     public function register()
     {
