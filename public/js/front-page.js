@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
         signupForm.classList.add('active');
     });
 
-    signinButton.addEventListener('click', validateAuthForm);
+    //signinButton.addEventListener('click', validateAuthForm);
 
     function validateAuthForm() {
         if (!isCorrectEmail(authEmail)){
-            addMistakeClass(authEmail);
+            addMistake(authEmail);
             return;
         } else{
-            removeMistakeClass(authEmail);
+            removeMistake(authEmail);
         }
         sendAuth();
     }
@@ -52,73 +52,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     var errorsCount = 0;
-    registerButton.addEventListener('click', validateRegForm);
+    signupForm.addEventListener('submit', validateRegForm);
     function validateRegForm() {
         errorsCount =  0;
-        !isCorrectEmail(regEmail)? addMistakeClass(regEmail): removeMistakeClass(regEmail);
-        !isCorrectPswd() ? addMistakeClass(regPswd): removeMistakeClass(regPswd);
-        !isConfirmedPswd() ? addMistakeClass(regPswd2): removeMistakeClass(regPswd2);
-        !isCorrectName(regName) ? addMistakeClass(regName): removeMistakeClass(regName);
-        !isCorrectName(regLastName) ? addMistakeClass(regLastName): removeMistakeClass(regLastName);
+        !isCorrectEmail(regEmail)? addMistake(regEmail, 'Invalid email'): removeMistake(regEmail);
+        !isCorrectPswd() ? addMistake(regPswd, 'Min 6 chars, max 16 chars'): removeMistake(regPswd);
+        !isConfirmedPswd() ? addMistake(regPswd2, 'Passwords not equal'): removeMistake(regPswd2);
+        !isCorrectName(regName) ? addMistake(regName, 'Min 2 chars, max 16 chars'): removeMistake(regName);
+        !isCorrectName(regLastName) ? addMistake(regLastName, 'Min 2 chars, max 16 chars'): removeMistake(regLastName);
 
-        if (errorsCount === -5){
-            sendRegister();
+        if (errorsCount !== -5){
+            event.preventDefault();
         }
     }
 
-    function sendRegister() {
-        var data = $('.sign-up').serialize();
-        var response;
-        $.ajax({
-            type: "POST",
-            url: "/register",
-            data: data,
-            success: function (data) {
-                if (data && Object.keys(JSON.parse(data)).length > 0)
-                    outputErrors(JSON.parse(data));
-                else{
-                    window.location.href = '/activate-email';
-                }
-            }
-        });
-    }
 
-    function outputErrors(errors) {
-        for (var property in errors) {
-            if (errors.hasOwnProperty(property)) {
-                switch (property){
-                    case 'mail':
-                        regEmail.nextElementSibling.innerHTML = errors[property];
-                        regEmail.nextElementSibling.classList.add('visible');
-                        break;
-                    case 'name':
-                        regName.nextElementSibling.innerHTML = errors[property];
-                        regEmail.nextElementSibling.classList.add('visible');
-                        break;
-                    case 'lastName':
-                        regLastNameName.nextElementSibling.innerHTML = errors[property];
-                        regEmail.nextElementSibling.classList.add('visible');
-                        break;
-                    case 'pswd':
-                        regPswd.nextElementSibling.innerHTML = errors[property];
-                        regEmail.nextElementSibling.classList.add('visible');
-                        break;
-                    case 'pswd2':
-                        regPswd2.nextElementSibling.innerHTML = errors[property];
-                        regEmail.nextElementSibling.classList.add('visible');
-                        break;
-                }
-            }
-        }
-    }
-
-    function addMistakeClass(element) {
-        element.nextElementSibling.classList.add('visible');
+    function addMistake(element, mistake) {
+        element.nextElementSibling.innerHTML = mistake;
         errorsCount++;
     }
 
-    function removeMistakeClass(element) {
-        element.nextElementSibling.classList.remove('visible');
+    function removeMistake(element) {
+        debugger;
+        element.nextElementSibling.innerHTML = '';
         errorsCount--;
     }
 
