@@ -10,7 +10,6 @@ class MY_Controller extends CI_Controller
 
     public function is_user_logged()
     {
-        $this->load->library('session');
         $this->load->helper('cookie');
         $this->load->helper('security');
         if ($this->session->userdata('id')) {
@@ -30,5 +29,11 @@ class MY_Controller extends CI_Controller
         }
         return false;
     }
+
+    public function get_common_app_data()
+    {
+        return $this->my_model->get_user_data($this->session->userdata('id'));
+    }
+
 
 }

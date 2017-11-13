@@ -10,7 +10,6 @@ class Front_page extends My_Controller {
             redirect('/main');
         $this->load->helper('form');
         $this->load->model('front_model');
-        $this->load->library('session');
     }
 
 	public function index()

@@ -20,4 +20,17 @@ class MY_Model extends CI_Model {
         return false;
     }
 
+    public function get_user_data($id)
+    {
+        $this->db->select('avatar, name');
+        $this->db->from('users');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        $res = $query->row();
+        if ($res)
+            return $res;
+        return false;
+    }
+
+
 }

@@ -128,6 +128,7 @@ class CI_Form_validation {
 	{
 		$this->CI =& get_instance();
 
+
 		// applies delimiters set in config file.
 		if (isset($rules['error_prefix']))
 		{
@@ -245,6 +246,7 @@ class CI_Form_validation {
 			'postdata'	=> NULL,
 			'error'		=> ''
 		);
+
 
 		return $this;
 	}
