@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item ">
-                <a class="nav-link <?php if ($current_item == 'Home') echo 'active'; ?>" href="/main">Gallery list</a>
+                <a class="nav-link <?php if (isset($current_item) && $current_item == 'Home') echo 'active'; ?>" href="/main">Gallery list</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="/edit-profile">Edit profile</a>

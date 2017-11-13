@@ -1,8 +1,8 @@
 <?php
-
+defined('BASEPATH') OR exit('No direct script access allowed');
 class List_page extends MY_Controller
 {
-    public $data;
+    private $data;
     public function __construct()
     {
         parent::__construct();
@@ -13,6 +13,7 @@ class List_page extends MY_Controller
 
         $this->data['common_app_data'] = parent::get_common_app_data();
         $this->data['current_item'] = "Home";
+        $this->data['user_id'] = $this->session->userdata('id');
     }
 
     public function index()

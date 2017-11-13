@@ -4,7 +4,7 @@
         <a href="/create-gallery" class="btn btn-primary">Create gallery</a>
         <?php foreach ($list_data as $item): ?>
             <div class="card card-custom">
-                <img class="card-img-top" src="<?php echo $item['avatar']; ?>" alt="Card image cap">
+                <img class="card-img-top" src="/uploads/img/user_id_<?php echo $user_id; ?>/gallery_<?php echo $item['name']; ?>/<?php echo $item['avatar']; ?>" alt="Card image cap">
                 <div class="card-block">
                     <h4 class="card-title"><?php echo $item['name']; ?></h4>
                     <div class="buttons-group">

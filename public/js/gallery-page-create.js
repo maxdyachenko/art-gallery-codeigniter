@@ -6,49 +6,15 @@ document.addEventListener('DOMContentLoaded', function() {
         fileError = document.getElementById('fileError'),
         limitError = document.getElementById('limitError');
 
-    buttonCreate.addEventListener('click', validateCreateForm);
+    formCreate.addEventListener('submit', validateCreateForm);
 
     function validateCreateForm() {
-        var data = new FormData();
-
-        if (checkAvatar(fileError) && checkName()){
-            data.append('file', fileInput.files[0],fileInput.files[0].name);
-            data.append('name', galleryName.value);
+        if (!checkAvatar(fileError) || !checkName()){
+            event.preventDefault();
         }
-        else {
-            return false;
-        }
-        $.ajax({
-            type: "POST",
-            url: "/create-gallery-form",
-            data: data,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                $('.create-gallery-form')[0].reset();
-                var obj = data ? JSON.parse(data) : false;
-                if (obj && Object.keys(obj).length > 0) {
-                    if (obj.name) {
-                        showError(galleryName.nextElementSibling, obj.name);
-                    }
-                    else if(obj.img) {
-                        showError(fileError, obj.img);
-                    }
-                    else if(obj.limit) {
-                        showError(limitError, obj.limit);
-                    }
-                } else{
-                    window.location.href = '/gallery-list';
-                }
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
-        })
     }
     function checkName() {
         if (galleryName.value.length > 0){
-            galleryName.nextElementSibling.classList.remove('visible');
             return true;
         }
         else {
@@ -77,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     function showError(error, text) {
-        error.classList.add('visible');
         error.innerHTML = text;
     }
     function checkEmptyFile() {
