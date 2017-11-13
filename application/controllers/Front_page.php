@@ -1,11 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Front_page extends CI_Controller {
+class Front_page extends My_Controller {
     private $logged = null;
     public function __construct()
     {
         parent::__construct();
+        if (parent::is_user_logged())
+            redirect('/main');
         $this->load->helper('form');
         $this->load->model('front_model');
         $this->load->library('session');
@@ -35,7 +37,7 @@ class Front_page extends CI_Controller {
         }
         else
         {
-            
+            redirect('/main');
         }
     }
 
@@ -54,8 +56,8 @@ class Front_page extends CI_Controller {
             $this->load->helper('cookie');
 
             $id = $this->session->userdata('id');
-            set_cookie('id', $id, time()+60*60*24*30, base_url() ,'/');
-            set_cookie('token', $token, time()+60*60*24*30, base_url(), '/');
+            set_cookie('id', $id, time()+60*60*24*30);
+            set_cookie('token', $token, time()+60*60*24*30);
 
         }
         return true;
@@ -63,7 +65,7 @@ class Front_page extends CI_Controller {
 
     public function is_verified($email)
     {
-        if (!$this->front_model->is_verified($email))
+        if ($this->front_model->mail_exists($email) && !$this->front_model->is_verified($email))
         {
             $this->form_validation->set_message('is_verified', 'Email is not verified');
             $this->logged = false;
@@ -82,8 +84,9 @@ class Front_page extends CI_Controller {
         if (is_null($this->logged)) {
             $this->logged = true;
         }
-        $id = $this->front_model->get_user_id($email);
-        $this->session->set_userdata('id', $id);
+        $data = $this->front_model->get_user($email);
+        $this->session->set_userdata('id', $data->id);
+        $this->session->set_userdata('username', $data->name);
 
         return true;
     }
@@ -145,9 +148,9 @@ class Front_page extends CI_Controller {
         $this->email->to($email);
 
         $this->email->subject('Verify your email on Art Gallery');
-        $this->email->message($this->load->view('templates/email_template', $data, true));
+        $message = "Please, click this link to verify your email: " . base_url() . "verify-email/code/" . $data['code'];
+        $this->email->message($message);
 
-        $this->email->set_header("Content-type:", "text/html; charset=utf-8 \r\n");
         $this->email->set_header("From", "Art Gallery <no-reply@art-gallery.com>\r\n");
 
         $this->email->send();

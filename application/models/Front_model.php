@@ -1,11 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Front_model extends CI_Model
+class Front_model extends MY_Model
 {
-    public function __construct()
-    {
-        $this->load->database();
-    }
 
     public function primary_register() {
         $name = $this->input->post('regName');
@@ -42,6 +38,18 @@ class Front_model extends CI_Model
         return false;
     }
 
+    public function mail_exists($email)
+    {
+        $this->db->select('id');
+        $this->db->from('users');
+        $this->db->where('email', $email);
+        $query = $this->db->get();
+        $res = $query->row();
+        if ($res)
+            return $res->id;
+        return false;
+    }
+
     public function set_verified($email)
     {
         $this->db->set('isverified', 1);
@@ -70,15 +78,15 @@ class Front_model extends CI_Model
         return password_verify($pswd , $result['password']);
     }
 
-    public function get_user_id($email)
+    public function get_user($email)
     {
-        $this->db->select('id');
+        $this->db->select('id, name');
         $this->db->from('users');
         $this->db->where('email', $email);
         $query = $this->db->get();
         $res = $query->row();
         if ($res)
-            return $res->id;
+            return $res;
         return false;
     }
 
