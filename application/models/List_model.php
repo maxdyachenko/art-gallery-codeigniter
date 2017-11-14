@@ -14,9 +14,9 @@ class List_model extends MY_Model
         return array();
     }
 
-    public function delete_gallery($id)
+    public function delete_gallery($name, $user_id)
     {
-        $this->db->delete('gallerys_list', array('id' => $id));
+        $this->db->delete('gallerys_list', array('user_id' => $user_id, 'name' => $name));
     }
 
 }
