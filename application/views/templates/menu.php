@@ -10,7 +10,7 @@
                 <a class="nav-link <?php if (isset($current_item) && $current_item == 'Home') echo 'active'; ?>" href="/main">Gallery list</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="/edit-profile">Edit profile</a>
+                <a class="nav-link <?php if (isset($current_item) && $current_item == 'Edit profile') echo 'active'; ?>" href="/edit-profile">Edit profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/exit">Exit</a>

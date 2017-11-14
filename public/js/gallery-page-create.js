@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         else{
-            error.classList.remove('visible');
             error.innerHTML = "";
             return true;
         }

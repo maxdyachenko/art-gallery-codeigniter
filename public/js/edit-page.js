@@ -8,23 +8,26 @@ document.addEventListener('DOMContentLoaded', function() {
     userEditForm.addEventListener('submit', nameFormValidate);
 
     function nameFormValidate() {
-        !isCorrectName(username) ? addMistakeClass(username): removeMistakeClass(username);
-        !isCorrectName(userLastName) ? addMistakeClass(userLastName): removeMistakeClass(userLastName);
+        !isCorrectName(username) ? addMistake(username, "Min 2 chars, max 16 chars"): removeMistake(username);
+        !isCorrectName(userLastName) ? addMistake(userLastName, "Min 2 chars, max 16 chars"): removeMistake(userLastName);
     }
     function isCorrectName(element){
-        return element.value.length > 1 && element.value.length < 17;
+        if (element.value.length > 0)
+            return element.value.length > 1 && element.value.length < 17;
+        else
+            return true;
     }
-    function addMistakeClass(element){
-        element.nextElementSibling.classList.add('visible');
+    function addMistake(element, error){
+        element.nextElementSibling.innerHTML = error;
         event.preventDefault()
     }
-    function removeMistakeClass(element) {
-        element.nextElementSibling.classList.remove('visible');
+    function removeMistake(element) {
+        element.nextElementSibling.innerHTML = "";
     }
 
     pswdEditForm.addEventListener('submit', pswdFormValidate);
     function pswdFormValidate() {
-        !isCorrectPswd(pswd) ? addMistakeClass(pswd): removeMistakeClass(pswd);
+        !isCorrectPswd(pswd) ? addMistake(pswd, "Min 6 chars, max 16 chars"): removeMistake(pswd);
     }
 
     function isCorrectPswd() {
@@ -40,17 +43,14 @@ document.addEventListener('DOMContentLoaded', function() {
     avatarForm.addEventListener('submit', checkAvatar);
     function checkAvatar(){
         if (getFileSize() > 2000){
-            error.classList.add('visible');
             error.innerHTML = "Image size should be less than 2Mb";
             event.preventDefault();
         }
         else if (!checkFileExtension()){
-            error.classList.add('visible');
             error.innerHTML = "Upload only PNG or JPG";
             event.preventDefault();
         }
         else{
-            error.classList.remove('visible');
             error.innerHTML = "";
         }
     }
@@ -69,4 +69,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-    

@@ -49,6 +49,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+$route['edit-profile/edit-avatar'] = 'edit_profile_page/edit_avatar';
+$route['edit-profile/edit-pswd'] = 'edit_profile_page/edit_pswd';
+$route['edit-profile/edit-name'] = 'edit_profile_page/edit_name';
+$route['edit-profile'] = 'edit_profile_page/index';
 $route['create-gallery-form'] = 'gallery_create_page/create_gallery';
 $route['create-gallery'] = 'gallery_create_page/index';
 $route['delete-gallery'] = 'list_page/delete_gallery';
