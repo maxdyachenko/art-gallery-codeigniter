@@ -68,4 +68,41 @@ class Edit_profile_page extends MY_Controller
         }
     }
 
+    public function edit_pswd()
+    {
+        $this->data['active_tab'] = 2;
+        $this->form_validation->set_rules('oldPswd', 'Old password', 'trim|required|min_length[6]|max_length[16]|callback_is_old_pswd_exist');
+        $this->form_validation->set_rules('newPswd', 'New password', 'trim|required|min_length[6]|max_length[16]');
+
+        if ($this->form_validation->run() == FALSE)
+        {
+            $this->load->view('templates/header');
+            $this->load->view('templates/menu', $this->data);
+            $this->load->view('pages/edit_profile', $this->data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            $this->edit_profile_model->update_pswd($this->session->userdata('id'), $this->input->post('newPswd'));
+
+            $this->data['pswd_changed'] = "Password successfully changed";
+            $this->load->view('templates/header');
+            $this->load->view('templates/menu', $this->data);
+            $this->load->view('pages/edit_profile', $this->data);
+            $this->load->view('templates/footer');
+        }
+    }
+
+    public function is_old_pswd_exist($pswd)
+    {
+        $pswd = filter_var($pswd, FILTER_SANITIZE_STRING);
+        if (!$this->edit_profile_model->check_old_pswd($pswd, $this->session->userdata('id')))
+        {
+            $this->form_validation->set_message('is_old_pswd_exist', 'Incorrect old password');
+            return false;
+        }
+        return true;
+
+    }
+
 }

@@ -36,12 +36,12 @@
                 <?php echo form_open('edit-profile/edit-pswd', "class='pswd-edit-form'") ?>
                     <div class="form-group">
                         <label for="InputPassword1">Old Password</label>
-                        <input type="password" class="form-control" name="oldPswd" id="InputPassword1" placeholder="Old Password">
+                        <input type="password" class="form-control" name="oldPswd" id="InputPassword1" placeholder="Old Password" required>
                         <div class="invalid-feedback visible"><?php echo form_error('oldPswd'); ?></div>
                     </div>
                     <div class="form-group">
                         <label for="InputPassword2">New Password</label>
-                        <input type="password" class="form-control" name="newPswd" id="InputPassword2" placeholder="New Password">
+                        <input type="password" class="form-control" name="newPswd" id="InputPassword2" placeholder="New Password" required>
                         <div class="invalid-feedback visible"><?php echo form_error('newPswd'); ?></div>
                     </div>
                     <button type="submit" class="btn btn-primary" name="editPswdForm">Submit</button>
