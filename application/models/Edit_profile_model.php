@@ -45,4 +45,11 @@ class Edit_profile_model extends MY_Model
         $this->db->where('id', $id);
         $this->db->update('users');
     }
+
+    public function upload_avatar($file, $id)
+    {
+        $this->db->set('avatar', $file);
+        $this->db->where('id', $id);
+        $this->db->update('users');
+    }
 }

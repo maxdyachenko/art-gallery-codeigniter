@@ -49,11 +49,12 @@
             </div>
             <div class="tab-pane <?php if ($active_tab == 3) echo 'active' ?>" id="avatar" role="tabpanel">
                 <?php echo form_open_multipart('edit-profile/edit-avatar', "class='avatar-edit-form'") ?>
+                <div class="invalid-feedback visible"><?php if (isset($file_loaded)) echo $file_loaded; ?></div>
                     <label class="custom-file">
                         <input type="file" id="file2" name="file" class="custom-file-input" required>
                         <span class="custom-file-control"></span>
                     </label><br>
-                    <div class="invalid-feedback visible"><?php echo form_error('file'); ?></div>
+                    <div class="invalid-feedback visible"><?php if (isset($file_error)) echo $file_error; ?></div>
                     <button type="submit" class="btn btn-primary" name="editAvatarForm">Submit</button>
                 </form>
             </div>

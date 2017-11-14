@@ -105,4 +105,41 @@ class Edit_profile_page extends MY_Controller
 
     }
 
+    public function edit_avatar()
+    {
+        $this->data['active_tab'] = 3;
+
+        $dirName = FCPATH . "/uploads/img/user_id_" . $this->session->userdata('id');
+        !file_exists($dirName) ? mkdir($dirName, 0777, true) : false;
+
+        $config['upload_path'] = $dirName;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = 1000;
+        $config['max_width'] = 1024;
+        $config['file_name'] = 'user-avatar';
+        $config['file_ext_tolower'] = TRUE;
+        $config['max_height'] = 768;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('file'))
+        {
+            $this->data['file_error'] = $this->upload->display_errors();
+
+            $this->load->view('templates/header');
+            $this->load->view('templates/menu', $this->data);
+            $this->load->view('pages/edit_profile', $this->data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            $this->data['file_loaded'] = "Avatar successfully uploaded!";
+            $this->edit_profile_model->upload_avatar($this->upload->data('file_name'), $this->session->userdata('id'));
+            $this->load->view('templates/header');
+            $this->load->view('templates/menu', $this->data);
+            $this->load->view('pages/edit_profile', $this->data);
+            $this->load->view('templates/footer');
+        }
+    }
+
 }

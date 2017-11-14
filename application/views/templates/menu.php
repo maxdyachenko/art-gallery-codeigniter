@@ -17,7 +17,7 @@
             </li>
             <li class="nav-item">
                 <div class="user-block">
-                    <img src="<?php echo $common_app_data->avatar; ?>" alt="Your avatar" class="user-avatar">
+                    <img src="/<?php if (isset($common_app_data->avatar)) echo 'uploads/img/user_id_' . $this->session->userdata('id') . '/' .$common_app_data->avatar; else echo '/public/img/noavatar.jpg' ?>" alt="Your avatar" class="user-avatar">
                     <p class="caption">Hello, <?php echo $common_app_data->name; ?></p>
                 </div>
             </li>
