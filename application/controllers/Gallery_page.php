@@ -62,12 +62,39 @@ class Gallery_page extends MY_Controller
         else
         {
             $this->gallery_model->insert_image($gallery_id, $gallery_fetch_name, $this->session->userdata('id'), $this->upload->data('file_name'));
-            redirect(base_url() . '/gallery/' . $gallery_id);
+            redirect(base_url() . 'gallery/' . $gallery_id);
+        }
+    }
+
+    public function delete_image()
+    {
+        $this->form_validation->set_rules('name', 'Image name', 'trim|required');
+        $this->form_validation->set_rules('gallery', 'Gallery name', 'trim|required|callback_is_integer');
+
+
+        if ($this->form_validation->run() == FALSE)
+        {
+            redirect('/main');
+        }
+        else
+        {
+            $image_name = filter_var($this->input->post('name'), FILTER_SANITIZE_STRING);
+            $gallery_id = $this->input->post('gallery');
+            $gallery_fetch = $this->gallery_model->get_gallery_fetch_name($gallery_id, $this->session->userdata('id'));
+
+            $this->gallery_model->delete_image($image_name, $gallery_id, $this->session->userdata('id'));
+            unlink(FCPATH ."/uploads/img/user_id_{$this->session->userdata('id')}/gallery_{$gallery_fetch}/{$image_name}");
+            redirect(base_url() . 'gallery/' . $gallery_id);
         }
     }
 
     public function check_gallery_exist($gallery_id)
     {
         return $this->gallery_model->check_gallery_exist($gallery_id, $this->session->userdata('id'));
+    }
+
+    public function is_integer($value)
+    {
+        return is_numeric($value);
     }
 }

@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else {
             imgName = e.relatedTarget.getAttribute('data-name');
             input.setAttribute('value',imgName);
-            form.setAttribute('action', '/delete');
+            form.setAttribute('action', '/delete-image');
         }
     });
 

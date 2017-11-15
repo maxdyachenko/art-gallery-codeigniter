@@ -3,7 +3,7 @@
 <div class="content">
     <section class="container news-container content-container">
         <div class="row justify-content-between buttons-group">
-            <button type="button" class="btn btn-danger delete-all" data-toggle="modal" data-target="#delete-image-popup" data-name="">Delete All</button>
+            <button type="button" class="btn btn-danger delete-all" data-toggle="modal" data-target="#delete-image-popup" data-name="<?php  echo $gallery_id;?>">Delete All</button>
             <!--            delete-all -> this class to handle this button in js and set coorect action in form popup-->
             <button type="button" class="btn btn-danger delete-selected" data-toggle="modal" data-target="#delete-image-popup">Delete Selected</button>
             <!--            delete-selected -> this class to handle this button in js and set coorect action in form popup-->
@@ -35,7 +35,7 @@
                                 <input class="form-check-input" type="checkbox" name="chk[]" value="">
                             </label>
                         </div>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-image-popup" data-name="">Delete image</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-image-popup" data-name="<?php echo $content_item['user_img']; ?>">Delete image</button>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -54,7 +54,7 @@
             <div class="modal-footer">
                 <form method="post">
                     <input type="hidden" name="name">
-                    <input type="hidden" name="gallery" value="<?php //insert here gallery id?>">
+                    <input type="hidden" name="gallery" value="<?php echo $gallery_id;?>">
                     <button type="submit" class="btn btn-primary delete-btn">Confirm</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </form>
