@@ -87,4 +87,5 @@ class Gallery_create_page extends MY_Controller
         }
         return true;
     }
+
 }

@@ -37,4 +37,16 @@ class Gallery_model extends MY_Model
 
         $this->db->insert('users_imgs', $data);
     }
+
+    public function check_gallery_exist($gallery_id)
+    {
+        $this->db->select('user_id');
+        $this->db->from('gallerys_list');
+        $this->db->where('id', $gallery_id);
+        $query = $this->db->get();
+        $res = $query->row();
+        if ($res)
+            return $res->user_id;
+        return false;
+    }
 }
