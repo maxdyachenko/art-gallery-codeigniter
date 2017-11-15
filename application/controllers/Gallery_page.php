@@ -17,11 +17,11 @@ class Gallery_page extends MY_Controller
 
     public function index($gallery_id)
     {
-        if (!$this->check_gallery_exist($gallery_id))
+        if (!$this->check_gallery_exist($gallery_id, $this->session->userdata('id')))
             redirect('404_override');
 
         $this->data['gallery_id'] = $gallery_id;
-        $this->data['content'] = $this->gallery_model->get_gallery_content($gallery_id);
+        $this->data['content'] = $this->gallery_model->get_gallery_content($gallery_id, $this->session->userdata('id'));
         $this->load->view('templates/header');
         $this->load->view('templates/menu', $this->data);
         $this->load->view('pages/gallery_page', $this->data);
@@ -30,12 +30,12 @@ class Gallery_page extends MY_Controller
 
     public function upload_image($gallery_id)
     {
-        if (!$this->check_gallery_exist($gallery_id))
+        if (!$this->check_gallery_exist($gallery_id, $this->session->userdata('id')))
             redirect('404_override');
         $this->data['gallery_id'] = $gallery_id;
         $this->load->helper('date');
         $gallery_id = filter_var($gallery_id, FILTER_SANITIZE_NUMBER_INT);
-        $gallery_fetch_name = $this->gallery_model->get_gallery_fetch_name($gallery_id);
+        $gallery_fetch_name = $this->gallery_model->get_gallery_fetch_name($gallery_id, $this->session->userdata('id'));
         $dirName = FCPATH . "/uploads/img/user_id_" . $this->session->userdata('id') . "/gallery_" . $gallery_fetch_name;
         !file_exists($dirName) ? mkdir($dirName, 0777, true) : false;
 
@@ -52,7 +52,7 @@ class Gallery_page extends MY_Controller
         if (!$this->upload->do_upload('file'))
         {
             $this->data['image_error'] = $this->upload->display_errors();
-            $this->data['content'] = $this->gallery_model->get_gallery_content($gallery_id);
+            $this->data['content'] = $this->gallery_model->get_gallery_content($gallery_id, $this->session->userdata('id'));
 
             $this->load->view('templates/header');
             $this->load->view('templates/menu', $this->data);
@@ -68,6 +68,6 @@ class Gallery_page extends MY_Controller
 
     public function check_gallery_exist($gallery_id)
     {
-        return $this->gallery_model->check_gallery_exist($gallery_id);
+        return $this->gallery_model->check_gallery_exist($gallery_id, $this->session->userdata('id'));
     }
 }

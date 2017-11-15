@@ -2,11 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Gallery_model extends MY_Model
 {
-    public function get_gallery_content($id)
+    public function get_gallery_content($id, $user_id)
     {
         $this->db->select('id, gallery_id, gallery_fetch_name, user_img');
         $this->db->from('users_imgs');
         $this->db->where('gallery_id', $id);
+        $this->db->where('user_id', $user_id);
         $query = $this->db->get();
         $res = $query->result_array();
         if ($res)
@@ -14,11 +15,12 @@ class Gallery_model extends MY_Model
         return array();
     }
 
-    public function get_gallery_fetch_name($gallery_id)
+    public function get_gallery_fetch_name($gallery_id, $user_id)
     {
         $this->db->select('fetch_name');
         $this->db->from('gallerys_list');
         $this->db->where('id', $gallery_id);
+        $this->db->where('user_id', $user_id);
         $query = $this->db->get();
         $res = $query->row();
         if ($res)
@@ -38,11 +40,12 @@ class Gallery_model extends MY_Model
         $this->db->insert('users_imgs', $data);
     }
 
-    public function check_gallery_exist($gallery_id)
+    public function check_gallery_exist($gallery_id, $user_id)
     {
         $this->db->select('user_id');
         $this->db->from('gallerys_list');
         $this->db->where('id', $gallery_id);
+        $this->db->where('user_id', $user_id);
         $query = $this->db->get();
         $res = $query->row();
         if ($res)
