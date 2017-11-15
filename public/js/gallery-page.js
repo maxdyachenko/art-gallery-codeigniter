@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             form = this.getElementsByTagName('form')[0];
         if (e.relatedTarget.classList.contains('delete-all')) {
             gallery = e.relatedTarget.getAttribute('data-name');
-            form.setAttribute('action', '/remove-all-images/' + gallery);
+            form.setAttribute('action', '/delete-all-images/' + gallery);
         }
         else if (e.relatedTarget.classList.contains('delete-selected')){
             var imgsArray = [];

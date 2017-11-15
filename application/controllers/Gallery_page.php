@@ -88,6 +88,28 @@ class Gallery_page extends MY_Controller
         }
     }
 
+    public function delete_all_images($gallery_id)
+    {
+        $gallery_id = intval($gallery_id);
+        $gallery_fetch = $this->gallery_model->get_gallery_fetch_name($gallery_id, $this->session->userdata('id'));
+
+        if (!$this->gallery_model->delete_all_images($gallery_id, $this->session->userdata('id')))
+        {
+            redirect(base_url());
+            return;
+        }
+
+        $dir_path = FCPATH ."/uploads/img/user_id_{$this->session->userdata('id')}/gallery_{$gallery_fetch}";
+        $files = glob($dir_path . "/*");
+        foreach($files as $file){
+            $str = explode('/', $file);
+            if(is_file($file) && strpos(end($str), 'avatar') === false){
+                unlink($file);
+            }
+        }
+        redirect(base_url() . 'gallery/' . $gallery_id);
+    }
+
     public function check_gallery_exist($gallery_id)
     {
         return $this->gallery_model->check_gallery_exist($gallery_id, $this->session->userdata('id'));

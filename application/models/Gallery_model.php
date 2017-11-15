@@ -57,4 +57,9 @@ class Gallery_model extends MY_Model
     {
         $this->db->delete('users_imgs', array('user_id' => $user_id, 'user_img' => $image_name, 'gallery_id' => $gallery_id));
     }
+
+    public function delete_all_images($gallery_id, $user_id)
+    {
+        return $this->db->delete('users_imgs', array('user_id' => $user_id, 'gallery_id' => $gallery_id));
+    }
 }
