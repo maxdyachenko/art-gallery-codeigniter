@@ -43,4 +43,6 @@ class List_page extends MY_Controller
         redirect('/main');
     }
 
+
+
 }

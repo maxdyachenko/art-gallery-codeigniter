@@ -110,6 +110,33 @@ class Gallery_page extends MY_Controller
         redirect(base_url() . 'gallery/' . $gallery_id);
     }
 
+    public function delete_selected_images()
+    {
+        $this->form_validation->set_rules('name', 'Image name', 'trim|required');
+        $this->form_validation->set_rules('gallery', 'Gallery name', 'trim|required|callback_is_integer');
+
+
+        if ($this->form_validation->run() == FALSE)
+        {
+            redirect('/main');
+        }
+        else
+        {
+            $image_name = filter_var($this->input->post('name'), FILTER_SANITIZE_STRING);
+            $gallery_id = $this->input->post('gallery');
+            $gallery_fetch = $this->gallery_model->get_gallery_fetch_name($gallery_id, $this->session->userdata('id'));
+
+            if (!$this->gallery_model->delete_selected_images($image_name, $gallery_id, $this->session->userdata('id')))
+                redirect('/main');
+            $files = explode(',', $image_name);
+
+            foreach ($files as $file){
+                unlink(FCPATH ."/uploads/img/user_id_{$this->session->userdata('id')}/gallery_{$gallery_fetch}/{$file}");
+            }
+            redirect(base_url() . 'gallery/' . $gallery_id);
+        }
+    }
+
     public function check_gallery_exist($gallery_id)
     {
         return $this->gallery_model->check_gallery_exist($gallery_id, $this->session->userdata('id'));

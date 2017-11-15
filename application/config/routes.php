@@ -49,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+$route['remove-selected-images'] = 'gallery_page/delete_selected_images';
 $route['delete-all-images/(:num)'] = 'gallery_page/delete_all_images/$1';
 $route['delete-image'] = 'gallery_page/delete_image';
 $route['gallery/(:num)/upload-image'] = 'gallery_page/upload_image/$1';

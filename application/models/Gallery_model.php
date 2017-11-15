@@ -62,4 +62,13 @@ class Gallery_model extends MY_Model
     {
         return $this->db->delete('users_imgs', array('user_id' => $user_id, 'gallery_id' => $gallery_id));
     }
+
+    public function delete_selected_images($image_name, $gallery_id, $user_id)
+    {
+        $array = explode(',', $image_name);
+        $this->db->where('user_id',$user_id);
+        $this->db->where('gallery_id',$gallery_id);
+        $this->db->where_in('user_img', $array);
+        return $this->db->delete('users_imgs');
+    }
 }

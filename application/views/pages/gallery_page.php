@@ -32,7 +32,7 @@
                         <button type="button" class="btn btn-primary zoom-button" data-src="<?php echo '/uploads/img/user_id_' . $user_id . '/gallery_' . $content_item['gallery_fetch_name'] . '/' . $content_item['user_img']?>">Zoom</button>
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="chk[]" value="">
+                                <input class="form-check-input" type="checkbox" name="chk[]" value="<?php echo $content_item['user_img']; ?>">
                             </label>
                         </div>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-image-popup" data-name="<?php echo $content_item['user_img']; ?>">Delete image</button>
