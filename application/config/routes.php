@@ -49,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+$route['exit'] = 'exit_page/index';
 $route['edit-profile/edit-avatar'] = 'edit_profile_page/edit_avatar';
 $route['edit-profile/edit-pswd'] = 'edit_profile_page/edit_pswd';
 $route['edit-profile/edit-name'] = 'edit_profile_page/edit_name';
