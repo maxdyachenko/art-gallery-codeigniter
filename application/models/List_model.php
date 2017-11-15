@@ -4,7 +4,7 @@ class List_model extends MY_Model
 {
     public function get_data($id)
     {
-        $this->db->select('id, name, avatar');
+        $this->db->select('id, name, fetch_name, avatar');
         $this->db->from('gallerys_list');
         $this->db->where('user_id', $id);
         $query = $this->db->get();

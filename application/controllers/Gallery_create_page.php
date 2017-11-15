@@ -24,6 +24,7 @@ class Gallery_create_page extends MY_Controller
 
     public function create_gallery()
     {
+        $this->load->helper('date');
         if (!$this->gallery_create_model->has_limit($this->session->userdata('id')))
         {
             $this->data['limit_error'] = "You allowed to create < 6 galleries";
@@ -46,7 +47,8 @@ class Gallery_create_page extends MY_Controller
         else
         {
             $name = filter_var($this->input->post('galleryName'), FILTER_SANITIZE_STRING);
-            $dirName = FCPATH . "/uploads/img/user_id_" . $this->session->userdata('id') . "/gallery_" . $name;
+            $fetch_name = now();
+            $dirName = FCPATH . "/uploads/img/user_id_" . $this->session->userdata('id') . "/gallery_" . $fetch_name;
             !file_exists($dirName) ? mkdir($dirName, 0777, true) : false;
 
             $config['upload_path'] = $dirName;
@@ -70,7 +72,7 @@ class Gallery_create_page extends MY_Controller
             }
             else
             {
-                $this->gallery_create_model->set_gallery($name, $this->upload->data('file_name') , $this->session->userdata('id'));
+                $this->gallery_create_model->set_gallery($name, $this->upload->data('file_name') , $this->session->userdata('id'), $fetch_name);
                 redirect('/main');
             }
         }

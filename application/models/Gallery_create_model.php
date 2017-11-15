@@ -4,10 +4,11 @@ class Gallery_create_model extends MY_Model
 {
     const GALLERYS_ALLOWED = 5;
 
-    public function set_gallery($name, $img, $user_id)
+    public function set_gallery($name, $img, $user_id, $fetch_name)
     {
         $data = array(
             'name' => $name,
+            'fetch_name' => $fetch_name,
             'avatar'  => $img,
             'user_id'  => $user_id
         );
