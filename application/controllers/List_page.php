@@ -27,10 +27,10 @@ class List_page extends MY_Controller
 
     public function delete_gallery()
     {
-        $gallery_name = intval(trim($this->input->post('name')));
-        $this->list_model->delete_gallery($gallery_name, $this->session->userdata('id'));
+        $gallery_fetch_name = intval(trim($this->input->post('name')));
+        $this->list_model->delete_gallery($gallery_fetch_name, $this->session->userdata('id'));
 
-        $dir_path = FCPATH . "uploads/img/user_id_" . $this->session->userdata('id') . "/gallery_" . $gallery_name;
+        $dir_path = FCPATH . "uploads/img/user_id_" . $this->session->userdata('id') . "/gallery_" . $gallery_fetch_name;
 
         $files = glob($dir_path . "/*");
         foreach($files as $file){
