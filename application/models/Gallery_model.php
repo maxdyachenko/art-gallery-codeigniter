@@ -2,8 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Gallery_model extends MY_Model
 {
-    public function get_gallery_content($id, $user_id)
+    public function get_gallery_content($id, $user_id, $limit, $start_index)
     {
+        $this->db->limit($limit, $start_index);
         $this->db->select('id, gallery_id, gallery_fetch_name, user_img');
         $this->db->from('users_imgs');
         $this->db->where('gallery_id', $id);
@@ -51,6 +52,15 @@ class Gallery_model extends MY_Model
         if ($res)
             return $res->user_id;
         return false;
+    }
+
+    public function get_total_rows($gallery_id, $user_id)
+    {
+        $sql = "SELECT * FROM users_imgs WHERE user_id = ? AND gallery_id = ?";
+        $query = $this->db->query($sql, array($user_id, $gallery_id));
+        if ($query->num_rows())
+            return $query->num_rows();
+        return 0;
     }
 
     public function delete_image($image_name, $gallery_id, $user_id)

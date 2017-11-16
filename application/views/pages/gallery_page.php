@@ -2,13 +2,18 @@
 
 <div class="content">
     <section class="container news-container content-container">
-        <div class="row justify-content-between buttons-group">
-            <button type="button" class="btn btn-danger delete-all" data-toggle="modal" data-target="#delete-image-popup" data-name="<?php  echo $gallery_id;?>">Delete All</button>
-            <!--            delete-all -> this class to handle this button in js and set coorect action in form popup-->
-            <button type="button" class="btn btn-danger delete-selected" data-toggle="modal" data-target="#delete-image-popup">Delete Selected</button>
-            <!--            delete-selected -> this class to handle this button in js and set coorect action in form popup-->
+        <?php if (!isset($image_error)) : ?>
+            <div class="row justify-content-between buttons-group">
+                <button type="button" class="btn btn-danger delete-all" data-toggle="modal" data-target="#delete-image-popup" data-name="<?php  echo $gallery_id;?>">Delete All</button>
+                <!--            delete-all -> this class to handle this button in js and set coorect action in form popup-->
+                <button type="button" class="btn btn-danger delete-selected" data-toggle="modal" data-target="#delete-image-popup">Delete Selected</button>
+                <!--            delete-selected -> this class to handle this button in js and set coorect action in form popup-->
 
-        </div>
+            </div>
+        <?php endif; ?>
+        <?php if (isset($image_error)) : ?>
+            <a href="<?php echo base_url() . 'gallery/' . $gallery_id . '/page' ?>">Go to gallery page</a>
+        <?php endif; ?>
         <div class="row justify-content-between images-wrapper">
             <div class="image-container col-12 col-md-4 add-image-block">
                 <?php echo form_open_multipart("gallery/{$gallery_id}/upload-image", "id='uploadForm'") ?>
@@ -41,7 +46,7 @@
             <?php endforeach; ?>
         </div>
 
-<!--       insert here pagination -->
+        <?php if (isset($pagination))echo $pagination; ?>
     </section>
 </div>
 

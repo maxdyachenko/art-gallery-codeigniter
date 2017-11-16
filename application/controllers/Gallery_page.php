@@ -15,13 +15,34 @@ class Gallery_page extends MY_Controller
         $this->load->library('form_validation');
     }
 
-    public function index($gallery_id)
+    public function index($gallery_id, $page = 0)
     {
         if (!$this->check_gallery_exist($gallery_id, $this->session->userdata('id')))
             redirect('404_override');
 
+        $this->load->library('pagination');
+
+        $this->config->load('pagination', TRUE);
+
+        $total_rows = $this->gallery_model->get_total_rows($gallery_id, $this->session->userdata('id'));
+        $settings = $this->config->item('pagination');
+        $settings['base_url'] = base_url() . 'gallery/' . $gallery_id . '/page';
+        $settings['total_rows'] = $total_rows;
+
+        $limit = 5;
+        $start_index = ($page) ? ($page - 1) * 5 : 0;
+
+
+        if ($page > ($total_rows % $limit) + 1)
+        {
+            redirect(base_url() . 'gallery/' . $gallery_id . '/page');
+        }
+
+        $this->pagination->initialize($settings);
+        $this->data['pagination'] = $this->pagination->create_links();
+
         $this->data['gallery_id'] = $gallery_id;
-        $this->data['content'] = $this->gallery_model->get_gallery_content($gallery_id, $this->session->userdata('id'));
+        $this->data['content'] = $this->gallery_model->get_gallery_content($gallery_id, $this->session->userdata('id'), $limit, $start_index);
         $this->load->view('templates/header');
         $this->load->view('templates/menu', $this->data);
         $this->load->view('pages/gallery_page', $this->data);
@@ -52,7 +73,7 @@ class Gallery_page extends MY_Controller
         if (!$this->upload->do_upload('file'))
         {
             $this->data['image_error'] = $this->upload->display_errors();
-            $this->data['content'] = $this->gallery_model->get_gallery_content($gallery_id, $this->session->userdata('id'));
+            $this->data['content'] = array();
 
             $this->load->view('templates/header');
             $this->load->view('templates/menu', $this->data);
@@ -62,7 +83,7 @@ class Gallery_page extends MY_Controller
         else
         {
             $this->gallery_model->insert_image($gallery_id, $gallery_fetch_name, $this->session->userdata('id'), $this->upload->data('file_name'));
-            redirect(base_url() . 'gallery/' . $gallery_id);
+            redirect(base_url() . 'gallery/' . $gallery_id . '/page');
         }
     }
 
@@ -84,7 +105,7 @@ class Gallery_page extends MY_Controller
 
             $this->gallery_model->delete_image($image_name, $gallery_id, $this->session->userdata('id'));
             unlink(FCPATH ."/uploads/img/user_id_{$this->session->userdata('id')}/gallery_{$gallery_fetch}/{$image_name}");
-            redirect(base_url() . 'gallery/' . $gallery_id);
+            redirect(base_url() . 'gallery/' . $gallery_id . '/page');
         }
     }
 
@@ -107,7 +128,7 @@ class Gallery_page extends MY_Controller
                 unlink($file);
             }
         }
-        redirect(base_url() . 'gallery/' . $gallery_id);
+        redirect(base_url() . 'gallery/' . $gallery_id . '/page');
     }
 
     public function delete_selected_images()
@@ -133,7 +154,7 @@ class Gallery_page extends MY_Controller
             foreach ($files as $file){
                 unlink(FCPATH ."/uploads/img/user_id_{$this->session->userdata('id')}/gallery_{$gallery_fetch}/{$file}");
             }
-            redirect(base_url() . 'gallery/' . $gallery_id);
+            redirect(base_url() . 'gallery/' . $gallery_id . '/page');
         }
     }
 

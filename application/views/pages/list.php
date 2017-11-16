@@ -8,7 +8,7 @@
                 <div class="card-block">
                     <h4 class="card-title"><?php echo $item['name']; ?></h4>
                     <div class="buttons-group">
-                        <a href="/gallery/<?php echo $item['id']; ?>" class="btn btn-primary">Open Gallery</a>
+                        <a href="/gallery/<?php echo $item['id']; ?>/page" class="btn btn-primary">Open Gallery</a>
                         <button type="button" class="btn btn-danger delete-all" data-toggle="modal" data-target="#delete-image-popup" data-name="<?php echo $item['fetch_name']; ?>">Delete Gallery</button>
                     </div>
                 </div>
